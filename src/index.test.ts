@@ -1,6 +1,7 @@
 import { unstable_dev } from "wrangler";
 import type { UnstableDevWorker } from "wrangler";
 import { describe, expect, it, beforeAll, afterAll } from "vitest";
+import { html } from "./html";
 
 describe("Worker", () => {
 	let worker: UnstableDevWorker;
@@ -15,11 +16,11 @@ describe("Worker", () => {
 		await worker.stop();
 	});
 
-	it("should return Hello World", async () => {
+	it("snapshot test", async () => {
 		const resp = await worker.fetch();
 		if (resp) {
-			const text = await resp.text();
-			expect(text).toMatchInlineSnapshot(`"Hello World!"`);
+			const body = await resp;
+			expect(body).toMatchSnapshot(html);
 		}
 	});
 });
